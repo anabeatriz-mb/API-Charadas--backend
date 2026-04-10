@@ -7,12 +7,19 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import json
+from flasgger import Swagger 
 
 load_dotenv() 
 
 
 
 app = Flask(__name__)
+#versão do openapi
+app.config['SWAGGER'] = {
+    'openapi': '3.0.0'
+}
+#chamar o openapi para o codigo 
+swagger = Swagger(app, template_file='openapi.yaml')
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 CORS(app, origins="*")   
@@ -32,6 +39,7 @@ firebase_admin.initialize_app(cred)
 
 #conectar ao firestore
 db = firestore.client()
+
 
 
 #rota de boas vindas
